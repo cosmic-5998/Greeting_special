@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Greeting Card</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom right, #f3e5ab, #ffcccb);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #d2691e;
+            margin-top: 20px;
+            font-size: 3em;
+            text-shadow: 1px 1px #ffdead;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #ffdead;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav button {
+            background-color: #fff;
+            color: #d2691e;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        nav button:hover {
+            background-color: #ffcc99;
+            transform: scale(1.1);
+        }
+
+        section {
+            padding: 100px 0;
+            min-height: 100vh;
+        }
+
+        #section1, #section2, #section3, #section4, #section5, #section6, #section7 {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #section1.active, #section2.active, #section3.active, #section4.active, #section5.active, #section6.active, #section7.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .virtual-pet {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: url('https://i.pinimg.com/236x/3c/39/6b/3c396bcea19f7e845ed39f682773214f.jpg') no-repeat center;
+            background-size: cover;
+            margin: 0 auto;
+            animation: pet-bounce 2s infinite;
+        }
+
+        @keyframes pet-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 600px;
+            margin: auto;
+            overflow: hidden;
+            background: #ffdead;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .slideshow-container img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .slideshow-controls {
+            margin-top: 10px;
+        }
+
+        .slideshow-controls button {
+            padding: 10px;
+            margin: 0 10px;
+            background-color: #d2691e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+       
+
+        .memory-game {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .memory-card {
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            background-color: #d2691e;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0;
+            transition: transform 0.5s;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+
+        .memory-card.flipped img {
+            transform: rotateY(0);
+        }
+
+        .scratch-card {
+            width: 300px;
+            height: 150px;
+            margin: 0 auto;
+            background: #d2691e;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .scratch-overlay {
+            width: 100%;
+            height: 100%;
+            background-color: #ffdead;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .scratch-hidden {
+            display: none;
+            font-size: 2em;
+            margin-top: 20px;
+            color: #d2691e;
+        }
+
+        .quiz-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffdead;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        
+
+        #wish-board {
+            margin-top: 30px;
+            background-color: #ffdead;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #wish-board input[type="text"] {
+            padding: 10px;
+            border: 2px solid #d2691e;
+            border-radius: 5px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        #wish-board button {
+            padding: 10px 20px;
+            background-color: #d2691e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #wish-board ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #wish-board li {
+            background-color: #f3e5ab;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            nav button {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <button onclick="navigateTo('section1')">Section 1</button>
+        <button onclick="navigateTo('section2')">Section 2</button>
+        <button onclick="navigateTo('section3')">Section 3</button>
+        <button onclick="navigateTo('section4')">Section 4</button>
+        <button onclick="navigateTo('section5')">Section 5</button>
+        <button onclick="navigateTo('section6')">Section 6</button>
+        <button onclick="navigateTo('section7')">Section 7</button>
+    </nav>
+
+
+    <section id="section1" class="active">
+        <h1>Happy Birthday!</h1>
+        <div class="virtual-pet" id="pet"></div>
+        <p>Meet your birthday pet! Click on the pet to play!</p>
+        <div id="pet-stats">
+            <p>Happiness: <span id="happiness">100</span></p>
+            <p>Hunger: <span id="hunger">0</span></p>
+         <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom right, #f3e5ab, #ffcccb);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #d2691e;
+            margin-top: 20px;
+            font-size: 3em;
+            text-shadow: 1px 1px #ffdead;
+        }
+
+        #ageDisplay {
+            font-size: 1.5em;
+            color: #d2691e;
+            padding: 10px;
+            display: inline-block;
+            border: none;
+            box-shadow: none;
+            background: transparent; /* Make background clear */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h1>Your Age on Earth</h1>
+        <div id="ageDisplay">Calculating...</div>
+    </section>
+
+    <script>
+        function calculateAge() {
+            const dob = new Date('2009-08-20T23:30:00+05:30'); // Enter the correct date of birth here
+            setInterval(() => {
+                const now = new Date();
+                const ageInMilliseconds = now - dob;
+
+                // Convert milliseconds into different units
+                const seconds = Math.floor(ageInMilliseconds / 1000);
+                const minutes = Math.floor(seconds / 60);
+                const hours = Math.floor(minutes / 60);
+                const days = Math.floor(hours / 24);
+                const years = Math.floor(days / 365.25);  // Considering leap years
+
+                // Calculate remaining time after years
+                const remainingDays = days % 365.25;
+                const remainingHours = hours % 24;
+                const remainingMinutes = minutes % 60;
+                const remainingSeconds = seconds % 60;
+
+                // Display the age
+                document.getElementById('ageDisplay').innerText = 
+                    `You have been on Earth for ${years} years, ${Math.floor(remainingDays)} days, ${remainingHours} hours, ${remainingMinutes} minutes, ${remainingSeconds} seconds, and ${ageInMilliseconds} milliseconds.`;
+            }, 1000);
+        }
+
+        // Run the age calculation function when the page loads
+        window.onload = calculateAge;
+    </script>
+</body>
+</html>
+
+
+        </div>
+    </section>
+
+    <section id="section2">
+        <h1>Moments i wnat to recretae with you💕</h1>
+        <div class="slideshow-container" id="slideshow">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/416627253_811120877507110_3970726162948905356_n.png?stp=dst-png_p180x540&_nc_cat=102&ccb=1-7&_nc_sid=0024fc&_nc_ohc=x-5QrAIURs8Q7kNvgFphv9L&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QFk05LIyEToESwjD8yznnhgOdx0LqTAi7Fx6Lz9xz3twA&oe=66E84560" alt="Memory 1" class="slide active">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/453910837_1228842458137643_5017687039358524802_n.png?_nc_cat=102&ccb=1-7&_nc_sid=0024fc&_nc_ohc=aEk3Sy7Fvl0Q7kNvgG7Hozp&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QGkOV_i2H7dQkZiZP39oqVTERKYa2ISNQ6FuOMPcQYylA&oe=66E85177" alt="Memory 2" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454164671_1207679943703716_2227113097882725743_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=wauWr7h_-zoQ7kNvgHXC2mq&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHIMXvbOdUhjmvQTcIJEoVm7VTMQwTjNjcBFqy4buWhWw&oe=66E8426C" alt="Memory 3" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454457869_870205851634611_3374371069398697392_n.png?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=YYDPhk4AuQgQ7kNvgFaB1yl&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHUbA5tfHnTc6jxngF32ecO97KyMEtElpZhc8Sj-iugmw&oe=66E84460" alt="Memory 4" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/439569708_452857260749049_10354139662596958_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=F-BDHsP3iZUQ7kNvgE3EW6v&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QGw1iG2aAGKHdbsZP_H8Il3ZklLMAdrTqEz0OOOi0CxUg&oe=66E863E2" alt="Memory 5" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/439557641_283693574798118_7285727026936641943_n.png?stp=dst-png_p320x320&_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=9baj-4awQ7sQ7kNvgFxLGmX&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHZ5VVsKNWcKWd3fslAbHEU8cgj6Xk1MKkR2L-wZxtZPg&oe=66E85B47" alt="Memory 6" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/395380650_1382154002510692_6385738046703249474_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=C9nHBltwVRIQ7kNvgGXlVcM&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QEVKZi83Q95wH0NzK6tP2GKREx9rIrArwa-jb8rb1SgAQ&oe=66E84339" alt="Memory 7" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454470001_781189747298765_6939110446539554382_n.png?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=TXWnfZCgVZwQ7kNvgEyvxZo&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QG--U0FP6w7NCoMPYjqFSoxk4fGjGtpvuRsbg8eGU6WaQ&oe=66E833C0" alt="Memory 8" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/370220766_168616476333914_5976909945520250113_n.png?_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=FmMLNE4C2dAQ7kNvgFpGTMt&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHM0SqH2lLimBJoqE4G44IHFzvLZ2GnDkt43L2_sygdlQ&oe=66E82CE0" alt="Memory 9" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454419156_488805110580639_6159720108558377870_n.png?stp=dst-png_p403x403&_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=YIGOdhGeB40Q7kNvgFvFuP2&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHop19W4GzHMebgcQS8AGADV1zrxwCEaRSRU0Sacvx9Hg&oe=66E84B9E" alt="Memory 10" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454887516_1774333463096104_9071591266094897638_n.png?_nc_cat=102&ccb=1-7&_nc_sid=0024fc&_nc_ohc=MsDDs9qt5bsQ7kNvgH5haRh&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QFGxRrvV8-ddyWy55WO4aehTgJlZywj6bBfwkAIqtpIsg&oe=66E84F80" alt="Memory 11" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454640744_7912771425426755_4898823547941654975_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=Md8UotmueBkQ7kNvgFEg3NF&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QHidm2glnKG4BKOq_6-Hu1OEsyxzbSC093Mxvyr5DXcGQ&oe=66E83AE5" alt="Memory 12" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/453471542_419928864436817_578882790780684701_n.png?stp=dst-png_s403x403&_nc_cat=102&ccb=1-7&_nc_sid=0024fc&_nc_ohc=QQFnowpSS3MQ7kNvgFWZwAM&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QEMY-di1-bfftieM7_F7SON34TyBc1Zlo_YZrklG2yA2Q&oe=66E84272" alt="Memory 13" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/453995571_524373299973992_1849838231406324421_n.png?stp=dst-png_p180x540&_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=2dAFU3tmVDEQ7kNvgHCNh8i&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QGZ1WFefS-5PGh8TomtgVv9XA9Q97Lj87qd-Wc8xt4uxg&oe=66E83CF4" alt="Memory 14" class="slide">
+            <img src="https://scontent.xx.fbcdn.net/v/t1.15752-9/454162950_468361869354735_296368414138920507_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=h1o6rW9ymXoQ7kNvgF81Y9J&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_Q7cD1QF-dAPEfiu4CTqBmbA-C2xO_PJykLz8uQB6fxUC0CAePw&oe=66E856D2" alt="Memory 15" class="slide">
+        </div>
+        <div class="slideshow-controls">
+            <button onclick="playSlideshow()">Play</button>
+            <button onclick="pauseSlideshow()">Pause</button>
+        </div>
+    </section>
+
+    <section id="section3">
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch Card</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background-color: #fce4ec;
+            margin: 0;
+            padding: 0;
+        }
+
+        .scratch-card {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 50px auto;
+            border: 2px solid #ff4081;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .scratch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #cccccc;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        #scratchMessage {
+            display: none;
+            font-size: 18px;
+            color: #ff4081;
+            margin-top: 20px;
+            transition: opacity 1s ease;
+        }
+
+        #animationBg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 192, 203, 0.5);
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        @keyframes bgAnimation {
+            0% { background-color: rgba(255, 192, 203, 0.5); }
+            100% { background-color: rgba(255, 105, 180, 0.5); }
+        }
+    </style>
+</head>
+<body>
+  
+    <h1>Scratch to Reveal 💖</h1>
+    <div class="scratch-card">
+        <canvas id="scratchCanvas" width="300" height="150"></canvas>
+        <div id="animationBg"></div>
+        <p id="scratchMessage">Happy birthday my cutie patutie 💝 </p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        const scratchOverlay = canvas;
+        const animationBg = document.getElementById('animationBg');
+        const scratchMessage = document.getElementById('scratchMessage');
+        let isScratching = false;
+
+        // Draw the scratch overlay
+        ctx.fillStyle = '#cccccc';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalCompositeOperation = 'destination-out';
+
+        function startScratching(event) {
+            isScratching = true;
+            scratch(event);
+        }
+
+        function stopScratching() {
+            isScratching = false;
+            if (isScratched()) {
+                showMessage();
+                startBgAnimation();
+            }
+        }
+
+        function scratch(event) {
+            if (!isScratching) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function isScratched() {
+            // Check if the scratch card is sufficiently scratched
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let scratchedPixels = 0;
+            let totalPixels = imageData.width * imageData.height;
+
+            for (let i = 0; i < totalPixels * 4; i += 4) {
+                if (imageData.data[i + 3] < 128) {
+                    scratchedPixels++;
+                }
+            }
+
+            return (scratchedPixels / totalPixels) > 0.3; // Adjust the percentage as needed
+        }
+
+        function showMessage() {
+            scratchMessage.style.display = 'block';
+            scratchMessage.style.opacity = '1';
+        }
+
+        function startBgAnimation() {
+            animationBg.style.animation = 'bgAnimation 5s forwards';
+        }
+
+        // Handle touch and mouse events
+        canvas.addEventListener('mousedown', startScratching);
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('mouseup', stopScratching);
+        canvas.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            startScratching(event.touches[0]);
+        });
+        canvas.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+            scratch(event.touches[0]);
+        });
+        canvas.addEventListener('touchend', stopScratching);
+    </script>
+</body>
+</html>
+
+    </section>
+
+    <section id="section4">
+        <h1>Love Quiz!🫴🏻</h1>
+        <div class="quiz">
+            <p>Whom do i love the most?</p>
+            <button onclick="checkAnswer('correct')">You!!</button>
+            <button onclick="checkAnswer('correct')">You, you and just you!!!!!!</button>
+        </div>
+        <div class="quiz-popup" id="quiz-popup">
+            <p>Yay! You got it right baby!😁🙃</p>
+        </div>
+    </section>
+
+    <section id="section5">
+        <h1>Something for you!</h1>
+        <div class="memory-game">
+            <div class="memory-card" onclick="flipCard(this)">
+                <img src="https://i.pinimg.com/236x/1d/50/75/1d5075419e06e9dd9e9a8e5a0d1935b4.jpg" alt="Memory 1">
+            </div>
+            <div class="memory-card" onclick="flipCard(this)">
+                <img src="https://i.pinimg.com/236x/a7/56/8b/a7568b0ccd7a910867e923b11514a564.jpg" alt="Memory 2">
+            </div>
+            <div class="memory-card" onclick="flipCard(this)">
+                <img src="https://i.pinimg.com/236x/1d/50/75/1d5075419e06e9dd9e9a8e5a0d1935b4.jpg" alt="Memory 3">
+            </div>
+            <div class="memory-card" onclick="flipCard(this)">
+                <img src="https://i.pinimg.com/236x/a7/56/8b/a7568b0ccd7a910867e923b11514a564.jpg" alt="Memory 4">
+            </div>
+            <!-- Add more cards as needed -->
+        </div>
+    </section>
+
+    <section id="section6">
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Greeting Card</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom right, #f3e5ab, #ffcccb);
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #d2691e;
+            margin-top: 20px;
+            font-size: 3em;
+            text-shadow: 1px 1px #ffdead;
+        }
+
+        .audio-section {
+            margin-top: 30px;
+            background-color: #ffdead;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-section button {
+            padding: 10px 20px;
+            background-color: #d2691e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .audio-section button:hover {
+            background-color: #c27b5b;
+        }
+
+        audio {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy Birthday!</h1>
+    
+    <!-- Audio Section -->
+    <div class="audio-section">
+        <h2>Your Special Message</h2>
+        <audio id="birthday-audio" controls>
+            <source src=https://github.com/cosmic-5998/Night-changes-audio-file/raw/main/videoplayback%20(1).weba type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <button onclick="playAudio()">Play Message</button>
+    </div>
+
+    <script>
+        function playAudio() {
+            const audio = document.getElementById('birthday-audio');
+            audio.play();
+        }
+    </script>
+</body>
+</html>
+
+
+    </section>
+
+    <section id="section7">
+        <h1>Party Time!</h1>
+        <div id="party-popup">
+            <div class="party">
+                <p>Let’s celebrate!</p>
+            </div>
+        </div>
+        <div id="wish-board">
+            <h2>Leave Your Birthday Wishes!</h2>
+            <input type="text" id="wish-input" placeholder="Type your wish here">
+            <button onclick="addWish()">Submit</button>
+            <ul id="wish-list"></ul>
+        </div>
+    </section>
+
+    <script>
+        // Navigation logic
+        function navigateTo(sectionId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Pet logic
+        let happiness = 100;
+        let hunger = 0;
+        document.querySelector('#pet').addEventListener('click', function() {
+            happiness = Math.min(100, happiness + 10);
+            hunger = Math.max(0, hunger - 5);
+            document.getElementById('happiness').textContent = happiness;
+            document.getElementById('hunger').textContent = hunger;
+        });
+
+        // Slideshow logic
+        let slideIndex = 0;
+        let slideInterval;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
+
+        function playSlideshow() {
+            slideInterval = setInterval(() => {
+                slideIndex = (slideIndex + 1) % slides.length;
+                showSlide(slideIndex);
+            }, 2000);
+        }
+
+        function pauseSlideshow() {
+            clearInterval(slideInterval);
+        }
+
+        // Scratch card logic
+        function revealScratch() {
+            document.querySelector('.scratch-overlay').style.display = 'none';
+            document.getElementById('hidden-message').style.display = 'block';
+        }
+
+        // Quiz logic with pop-up animation
+        function checkAnswer(result) {
+            const popup = document.getElementById('quiz-popup');
+            if (result === 'correct') {
+                popup.style.display = 'block';
+                setTimeout(() => popup.style.display = 'none', 2000);
+            } else {
+                alert('Sorry but you are wrong, dear!');
+            }
+        }
+
+        // Memory game logic
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // Wish board logic
+        function addWish() {
+            const wishInput = document.getElementById('wish-input');
+            const wishList = document.getElementById('wish-list');
+            if (wishInput.value.trim()) {
+                const wishItem = document.createElement('li');
+                wishItem.textContent = wishInput.value;
+                wishList.appendChild(wishItem);
+                wishInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
